@@ -27,8 +27,6 @@ unzip("./data/dataset.zip")
 
 #1. Merge the training and the test sets to create one data set.
 
-
-
 #  Read train data from extracted files
 features     <- read.table('./UCI HAR Dataset/features.txt',header=FALSE) 
 activityType <- read.table('./UCI HAR Dataset/activity_labels.txt',header=FALSE)
@@ -73,9 +71,6 @@ allData <- allData[columnSelect==TRUE]
 #3. Use descriptive activity names to name the activities in the data set
 allData <- merge(allData,activityType,by='activityId',all.x=TRUE)
 
-# Update colNames vector
-##colNames <- colnames(allData)
-
 #4. Appropriately label the data set with descriptive variable names.
 
 names(allData) <- gsub("\\()","",names(allData))
@@ -91,14 +86,7 @@ names(allData) <- gsub("([Bb]odyaccjerkmag)","BodyAccJerkMagnitude",names(allDat
 names(allData) <- gsub("JerkMag","JerkMagnitude",names(allData))
 names(allData) <- gsub("GyroMag","GyroMagnitude",names(allData))
 
-
-
-# Update colNames vector
-colNames <- colnames(allData)
-
-
 #5. From the data set in step 4, create a second, independent tidy data set with the average of each variable for each activity and each subject.
-
 
 tidyData <- ddply(allData,c("subjectId","activityId"),numcolwise(mean))
 write.table(tidyData, './tidyData.txt',row.names=TRUE,sep='\t')
