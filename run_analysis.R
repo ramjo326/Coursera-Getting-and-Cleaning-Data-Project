@@ -89,4 +89,4 @@ names(allData) <- gsub("GyroMag","GyroMagnitude",names(allData))
 #5. From the data set in step 4, create a second, independent tidy data set with the average of each variable for each activity and each subject.
 
 tidyData <- ddply(allData,c("subjectId","activityId"),numcolwise(mean))
-write.table(tidyData, './tidyData.txt',row.names=TRUE,sep='\t')
+write.table(tidyData, "./tidyData.txt",row.names=TRUE,sep='\t')
