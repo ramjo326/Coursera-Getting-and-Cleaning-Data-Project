@@ -4,7 +4,7 @@ This is the course project for the Getting and Cleaning Data Course
 
 The R Script "run_analysis.R" does the following:
 
-1.  Download the datasetfrom "https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip" if it does not         already exist in the working directory.
+1.  Download the dataset from "https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip" if it does not         already exist in the working directory.
 2.  Using the extracted data:
     1.  Merges the training and the test sets to create one data set.
     2.  Extracts only the measurements on the mean and standard deviation for each measurement.
