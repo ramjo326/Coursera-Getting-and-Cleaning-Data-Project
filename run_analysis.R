@@ -61,6 +61,8 @@ allData <- rbind(trainData, testData)
 # Create a vector for column names from allData 
 colNames <- colnames(allData)
 
+#2. Extract only the measurements on the mean and standard deviation for each measurement.
+
 # Create a logical vector columnSelect to extract desired column (mean and std)
 columnSelect <- (grepl("activity..",colNames) | grepl("subject..",colNames) | grepl("-mean..",colNames) & !grepl("-meanFreq..",colNames) & !grepl("mean..-",colNames) | grepl("-std..",colNames) & !grepl("-std()..-",colNames))
 
@@ -86,6 +88,5 @@ names(allData) <- gsub("JerkMag","JerkMagnitude",names(allData))
 names(allData) <- gsub("GyroMag","GyroMagnitude",names(allData))
 
 #5. From the data set in step 4, create a second, independent tidy data set with the average of each variable for each activity and each subject.
-
 tidyData <- ddply(allData,c("subjectId","activityId"),numcolwise(mean))
 write.table(tidyData, "./tidyData.txt",row.names=TRUE,sep="\t")
