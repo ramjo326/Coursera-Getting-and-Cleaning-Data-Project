@@ -15,27 +15,26 @@ rm(list=ls())
 
 #0. Extract the data
 
-## create "data" directory on working directory
-
 if(!file.exists("./data")) {dir.create("./data")}
 
 ##download the dataset from the given URL
 
 fileUrl <- "https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip"
-download.file(fileUrl, destfile = "./data/dataset.zip")
-unzip("./data/dataset.zip")
+if(!file.exists("./data")) {dir.create("./data")        ## create "data" directory on working directory
+download.file(fileUrl, destfile = "./data/dataset.zip") ## download zip file
+unzip("./data/dataset.zip")}                            ## unzip dataset 
 
 #1. Merge the training and the test sets to create one data set.
 
 #  Read train data from extracted files
-features     <- read.table('./UCI HAR Dataset/features.txt',header=FALSE) 
-activityType <- read.table('./UCI HAR Dataset/activity_labels.txt',header=FALSE)
-subjectTrain <- read.table('./UCI HAR Dataset/train/subject_train.txt',header=FALSE)
-xTrain       <- read.table('./UCI HAR Dataset/train/x_train.txt',header=FALSE)
-yTrain       <- read.table('./UCI HAR Dataset/train/y_train.txt',header=FALSE)
+features     <- read.table("./UCI HAR Dataset/features.txt",header=FALSE) 
+activityType <- read.table("./UCI HAR Dataset/activity_labels.txt",header=FALSE)
+subjectTrain <- read.table("./UCI HAR Dataset/train/subject_train.txt",header=FALSE)
+xTrain       <- read.table("./UCI HAR Dataset/train/x_train.txt",header=FALSE)
+yTrain       <- read.table("./UCI HAR Dataset/train/y_train.txt",header=FALSE)
 
 # Assign column names to extracted train data
-colnames(activityType)  <- c('activityId','activityType')
+colnames(activityType)  <- c("activityId","activityType")
 colnames(subjectTrain)  <- "subjectId"
 colnames(xTrain)        <- features[,2] 
 colnames(yTrain)        <- "activityId"
@@ -44,9 +43,9 @@ colnames(yTrain)        <- "activityId"
 trainData <- cbind(yTrain,subjectTrain,xTrain)
 
 # Read test data from extracted files
-subjectTest <- read.table('./test/subject_test.txt',header=FALSE)
-xTest       <- read.table('./test/x_test.txt',header=FALSE)
-yTest       <- read.table('./test/y_test.txt',header=FALSE)
+subjectTest <- read.table("./UCI HAR Dataset/test/subject_test.txt",header=FALSE)
+xTest       <- read.table("./UCI HAR Dataset/test/x_test.txt",header=FALSE)
+yTest       <- read.table("./UCI HAR Dataset/test/y_test.txt",header=FALSE)
 
 # Assign column names to extracted test data
 colnames(subjectTest) <- "subjectId"
@@ -69,7 +68,7 @@ columnSelect <- (grepl("activity..",colNames) | grepl("subject..",colNames) | gr
 allData <- allData[columnSelect==TRUE]
 
 #3. Use descriptive activity names to name the activities in the data set
-allData <- merge(allData,activityType,by='activityId',all.x=TRUE)
+allData <- merge(allData,activityType,by="activityId",all.x=TRUE)
 
 #4. Appropriately label the data set with descriptive variable names.
 
@@ -89,4 +88,4 @@ names(allData) <- gsub("GyroMag","GyroMagnitude",names(allData))
 #5. From the data set in step 4, create a second, independent tidy data set with the average of each variable for each activity and each subject.
 
 tidyData <- ddply(allData,c("subjectId","activityId"),numcolwise(mean))
-write.table(tidyData, "./tidyData.txt",row.names=TRUE,sep='\t')
+write.table(tidyData, "./tidyData.txt",row.names=TRUE,sep="\t")
